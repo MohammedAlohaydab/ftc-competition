@@ -6,9 +6,6 @@ import HomePageView from './views/homepage/HomePageView';
 
 function App() {
   const [endDate,setEndDate] = useState(null)
-  // example; 
-  // const ref = firebase.firestore().collection("test") 
-  // ref.doc('test2').set({'ok':2})
 
   return (
       <div className="App">
