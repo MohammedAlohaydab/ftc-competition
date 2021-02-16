@@ -2,8 +2,9 @@ import React from "react";
 import { Typography, Card, CardContent } from "@material-ui/core";
 import firebase from "firebase";
 
+import Timer from "./timer";
 const AnswerPageView = () => {
-  alert(firebase.auth().currentUser);
+  // alert(firebase.auth().currentUser);
   return (
     <Card>
       <CardContent>
@@ -24,8 +25,10 @@ const AnswerPageView = () => {
           sign out
         </button>
         <Typography gutterBottom variant="h5" component="h2">
-          Gg
+          : باقي لك
         </Typography>
+        <Timer />
+
         <Typography variant="body2" color="textSecondary" component="p">
           At vero eos et accusamus et iusto odio dignissimos ducimus qui
           blanditiis praesentium voluptatum deleniti atque corrupti quos dolores

@@ -27,7 +27,6 @@ const HomePageView = ({ setLoading }) => {
 
   return (
     <div>
-      <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
       <center>
         <h3>لقد وصلت</h3>
       </center>
