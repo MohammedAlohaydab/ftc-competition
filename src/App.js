@@ -16,15 +16,20 @@ function App({}) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((firebaseUser) => {
-      console.log(firebaseUser);
-      if (firebaseUser) {
-        setIsSignedIn(true);
-      } else {
-        setIsSignedIn(false);
+    firebase.auth().onAuthStateChanged(
+      (firebaseUser) => {
+        console.log(firebaseUser);
+        if (firebaseUser) {
+          setIsSignedIn(true);
+        } else {
+          setIsSignedIn(false);
+        }
+        setIsLoading(false);
+      },
+      (err) => {
+        alert(err);
       }
-      setIsLoading(false);
-    });
+    );
 
     const unsubscribeUserCountListener = firebase
       .firestore()

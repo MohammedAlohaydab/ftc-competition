@@ -4,7 +4,6 @@ import firebase from "firebase";
 
 import Timer from "./timer";
 const AnswerPageView = () => {
-  // alert(firebase.auth().currentUser);
   return (
     <Card>
       <CardContent>
@@ -13,9 +12,7 @@ const AnswerPageView = () => {
             firebase
               .auth()
               .signOut()
-              .then(() => {
-                alert("signed out");
-              })
+              .then(() => {})
               .catch((err) => {
                 alert(err);
               });
@@ -23,6 +20,24 @@ const AnswerPageView = () => {
         >
           {" "}
           sign out
+        </button>
+        <button
+          onClick={async () => {
+            let getAnwserFunction = firebase
+              .functions()
+              .httpsCallable("finalAnswer");
+
+            let answer = getAnwserFunction()
+              .then((result) => {
+                alert(result.data["answer"]);
+              })
+              .catch((err) => {
+                alert(err);
+              });
+          }}
+        >
+          {" "}
+          call function
         </button>
         <Typography gutterBottom variant="h5" component="h2">
           : باقي لك
