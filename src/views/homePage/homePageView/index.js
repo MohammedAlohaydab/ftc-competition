@@ -1,14 +1,12 @@
 import React, {useEffect} from "react";
 import { Button } from "@material-ui/core";
-import { useState } from "react";
-import firebase from "firebase";
+
 
 const HomePageView = () => {
 
 
   return (
     <div>
-      <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
       <center>
         <h3>لقد وصلت</h3>
       </center>

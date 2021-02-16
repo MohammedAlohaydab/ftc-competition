@@ -1,13 +1,15 @@
 import React from "react";
 import { Typography, Card, CardContent } from "@material-ui/core";
-
+import Timer from "./timer";
 const AnswerPageView = () => {
   return (
     <Card>
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
-          Gg
+            : باقي لك
         </Typography>
+        <Timer/>
+
         <Typography variant="body2" color="textSecondary" component="p">
           At vero eos et accusamus et iusto odio dignissimos ducimus qui
           blanditiis praesentium voluptatum deleniti atque corrupti quos dolores

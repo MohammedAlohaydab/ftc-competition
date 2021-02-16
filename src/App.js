@@ -7,12 +7,14 @@ import CountUp from 'react-countup';
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
 
+require('firebase/auth')
+
 function App() {
   const [count, setCount] = useState(0);
   const [endDate, setEndDate] = useState(null);
 
     const handleCounter = async () => {
-        const countDoc = firebase.firestore().collection("docs").doc("count");
+        const countDoc = firebase.firestore().collection("docs").doc("userCount");
         const addOne = firebase.firestore.FieldValue.increment(1);
         await countDoc.update({ userCount: addOne });
     };
@@ -35,7 +37,7 @@ function App() {
     const unsubscribeUserCountListener = firebase
       .firestore()
       .collection("docs")
-      .doc("count")
+      .doc("userCount")
       .onSnapshot((result) => {
         setCount(result.data()["userCount"]);
       });
@@ -55,14 +57,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h5> <CountUp end={count} /> عدد الواصلين </h5>
-
-
           <header className="App-header">
-          <Route exact path="/">
+
+              <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
+              <h5> <CountUp end={count} /> عدد الواصلين </h5>
+
+          <Route exact path="/home">
             <HomePageView />
           </Route>
-          <Route exact path="/answer">
+          <Route exact path="/">
             <AnswerPageView />
           </Route>
         </header>
