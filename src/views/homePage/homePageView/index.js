@@ -4,9 +4,6 @@ import { useState } from "react";
 import firebase from "firebase";
 
 const HomePageView = () => {
-  let logoPath = "";
-  console.log(logoPath);
-
   const handleClick = async () => {
     const countDoc = firebase.firestore().collection("docs").doc("count");
     const addOne = firebase.firestore.FieldValue.increment(1);
