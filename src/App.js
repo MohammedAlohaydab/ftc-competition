@@ -7,7 +7,7 @@ import CountUp from "react-countup";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
 import { CircularProgress, LinearProgress } from "@material-ui/core";
-import HomePageView from "./views/homePage/homePageView";
+import HomePageView from "./views/homepage/HomePageView";
 
 function App({}) {
   const [count, setCount] = useState(null);
@@ -18,10 +18,10 @@ function App({}) {
 
   const updateFinalDate = async () => {
     const date = firebase.firestore().collection("docs").doc("date");
-    let tomorrowTimestamp= (new Date().getTime()/1000) + (hourSeconds*24);
-    await date.set({ date: tomorrowTimestamp});
+    let tomorrowTimestamp = new Date().getTime() / 1000 + hourSeconds * 24;
+    await date.set({ date: tomorrowTimestamp });
     setEndDate(tomorrowTimestamp);
-  }
+  };
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(
@@ -54,8 +54,6 @@ function App({}) {
         setEndDate(result.data()["date"]);
       });
 
-
-
     return () => {
       unsubscribeUserCountListener();
       unsubscribeEndDateListener();
@@ -73,7 +71,7 @@ function App({}) {
       return <h1> جاري التحميل... </h1>;
     }
     if (isSignedIn) {
-      return <AnswerPageView setLoading={handleLoading}/>;
+      return <AnswerPageView setLoading={handleLoading} />;
     } else {
       return <HomePageView setLoading={handleLoading} />;
     }
