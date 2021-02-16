@@ -1,9 +1,11 @@
-import React from 'react';
 
 
-const HomePageView = () => {
-    return(
-       <h1>GG</h1>
-    )
+
+const HomePageView = () =>{
+
+
+    return <h1> HomePageView</h1>
 
 }
+
+export default HomePageView
