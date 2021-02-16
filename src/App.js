@@ -26,8 +26,8 @@ function App({}) {
 
   const setFinalDate = async () => {
     const date = firebase.firestore().collection("docs").doc("date");
-    let tomorrowTimestamp= (new Date().getTime()/1000) + (hourSeconds*24);
-    await date.set({ date: tomorrowTimestamp});
+    let tomorrowTimestamp = new Date().getTime() / 1000 + hourSeconds * 24;
+    await date.set({ date: tomorrowTimestamp });
     setEndDate(tomorrowTimestamp);
   }
   const updateUserCounter = async () => {
@@ -69,8 +69,6 @@ function App({}) {
         setEndDate(result.data()["date"]);
       });
 
-
-
     return () => {
       unsubscribeUserCountListener();
       unsubscribeEndDateListener();
@@ -88,7 +86,7 @@ function App({}) {
       return <h1> جاري التحميل... </h1>;
     }
     if (isSignedIn) {
-      return <AnswerPageView setLoading={handleLoading}/>;
+      return <AnswerPageView setLoading={handleLoading} />;
     } else {
       return <HomePageView updateCounter={updateUserCounter} setLoading={handleLoading} />;
     }
