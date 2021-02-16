@@ -6,8 +6,16 @@ import { useHistory } from "react-router-dom";
 import CountUp from "react-countup";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
-import { CircularProgress, LinearProgress } from "@material-ui/core";
+import {Box, CircularProgress, LinearProgress } from "@material-ui/core";
 import HomePageView from "./views/homePage/homePageView";
+
+const defaultProps = {
+  bgcolor: 'background.paper',
+  borderColor: 'text.primary',
+  m: 5,
+  border: 2,
+  style: { width: '10em', height: '9rem' },
+};
 
 function App({}) {
   const [count, setCount] = useState(null);
@@ -86,7 +94,6 @@ function App({}) {
     }
   };
 
-
   return (
     <div className="App">
       {isPageLoading() && <LinearProgress />}
@@ -94,7 +101,10 @@ function App({}) {
       <header className="App-header">
         <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
 
-        {!isPageLoading() && <h1> عدد الواصلين {count}</h1>}
+        {!isPageLoading() &&
+            <Box borderRadius="7%" {...defaultProps}>
+               <h4 style={{color:"black"}}>عدد الواصلين: <CountUp end={count}/> </h4>
+            </Box>}
         <PageContent />
       </header>
     </div>
