@@ -1,8 +1,9 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import firebase from "./firebase";
-import HomePageView from "./views/homepage/HomePageView";
+import HomePageView from "./views/homePage/homePageView";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import CountUp from 'react-countup';
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
 
@@ -18,13 +19,12 @@ function App() {
 
     const handleNewUser = () => {
       firebase.auth().onAuthStateChanged(firebaseUser => {
-        console.log(firebaseUser)
         if (firebaseUser) {
-            alert("anon user");
+            // alert("anon user");
         } else {
             firebase.auth().signInAnonymously();
             handleCounter();
-            alert("new user");
+            // alert("new user");
         }
     });
     }
@@ -55,8 +55,10 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h1> عدد الواصلين {count}</h1>
-        <header className="App-header">
+        <h5> <CountUp end={count} /> عدد الواصلين </h5>
+
+
+          <header className="App-header">
           <Route exact path="/">
             <HomePageView />
           </Route>
