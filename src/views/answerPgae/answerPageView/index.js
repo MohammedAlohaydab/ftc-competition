@@ -1,10 +1,28 @@
 import React from "react";
 import { Typography, Card, CardContent } from "@material-ui/core";
+import firebase from "firebase";
 
 const AnswerPageView = () => {
+  alert(firebase.auth().currentUser);
   return (
     <Card>
       <CardContent>
+        <button
+          onClick={() => {
+            firebase
+              .auth()
+              .signOut()
+              .then(() => {
+                alert("signed out");
+              })
+              .catch((err) => {
+                alert(err);
+              });
+          }}
+        >
+          {" "}
+          sign out
+        </button>
         <Typography gutterBottom variant="h5" component="h2">
           Gg
         </Typography>

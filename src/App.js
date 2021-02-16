@@ -3,39 +3,32 @@ import React, { useState, useEffect } from "react";
 import firebase from "./firebase";
 import HomePageView from "./views/homepage/HomePageView";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
+import { CircularProgress, LinearProgress } from "@material-ui/core";
 
-function App() {
-  const [count, setCount] = useState(0);
+function App({}) {
+  const [count, setCount] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
-    const handleCounter = async () => {
-        const countDoc = firebase.firestore().collection("docs").doc("count");
-        const addOne = firebase.firestore.FieldValue.increment(1);
-        await countDoc.update({ userCount: addOne });
-    };
-
-    const handleNewUser = () => {
-      firebase.auth().onAuthStateChanged(firebaseUser => {
-        console.log(firebaseUser)
-        if (firebaseUser) {
-            alert("anon user");
-        } else {
-            firebase.auth().signInAnonymously();
-            handleCounter();
-            alert("new user");
-        }
-    });
-    }
+  const [isSignedIn, setIsSignedIn] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    handleNewUser();
+    firebase.auth().onAuthStateChanged((firebaseUser) => {
+      console.log(firebaseUser);
+      if (firebaseUser) {
+        setIsSignedIn(true);
+      } else {
+        setIsSignedIn(false);
+      }
+      setIsLoading(false);
+    });
 
     const unsubscribeUserCountListener = firebase
       .firestore()
       .collection("docs")
-      .doc("count")
+      .doc("userCount")
       .onSnapshot((result) => {
         setCount(result.data()["userCount"]);
       });
@@ -52,20 +45,29 @@ function App() {
     };
   }, []);
 
+  const handleLoading = (shouldLoad) => {
+    setIsLoading(shouldLoad);
+  };
+  const isPageLoading = () => count === null || isSignedIn == null || isLoading;
+  const PageContent = () => {
+    if (count == null || isSignedIn == null) {
+      return <h1> جاري التحميل... </h1>;
+    }
+    if (isSignedIn) {
+      return <AnswerPageView />;
+    } else {
+      return <HomePageView setLoading={handleLoading} />;
+    }
+  };
   return (
-    <Router>
-      <div className="App">
-        <h1> عدد الواصلين {count}</h1>
-        <header className="App-header">
-          <Route exact path="/">
-            <HomePageView />
-          </Route>
-          <Route exact path="/answer">
-            <AnswerPageView />
-          </Route>
-        </header>
-      </div>
-    </Router>
+    <div className="App">
+      {isPageLoading() && <LinearProgress />}
+
+      <header className="App-header">
+        {!isPageLoading() && <h1> عدد الواصلين {count}</h1>}
+        <PageContent />
+      </header>
+    </div>
   );
 }
 
