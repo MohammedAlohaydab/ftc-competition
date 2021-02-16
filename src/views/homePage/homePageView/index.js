@@ -12,7 +12,7 @@ const HomePageView = () => {
     // next logic to implement:
     // signInAnon here then go to the next page.
     // if a user is signedInAnon he will be redircted to the answerPage
-    // for example if he closes and reopens the page he will be redircted to the answerPage.
+    // for wwexample if he closes and reopens the page he will be redircted to the answerPage.
   };
 
   return (
