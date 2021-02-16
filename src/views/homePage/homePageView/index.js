@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const HomePageView = ({ setLoading }) => {
+
   const updateUserCounter = async () => {
     const countDoc = firebase.firestore().collection("docs").doc("userCount");
     const addOne = firebase.firestore.FieldValue.increment(1);
@@ -17,6 +18,7 @@ const HomePageView = ({ setLoading }) => {
       .auth()
       .signInAnonymously()
       .then(() => {
+
         updateUserCounter();
         setLoading(false);
       })

@@ -29,7 +29,7 @@ const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 
 const Timer= () => {
     const stratTime = Date.now() / 1000; 
-    const endTime = stratTime + 10; // use timestamp in seconds from firebase
+    const endTime = stratTime + 10;
 
     const remainingTime = endTime - stratTime;
 

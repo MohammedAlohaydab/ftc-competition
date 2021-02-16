@@ -7,17 +7,24 @@ import CountUp from "react-countup";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
 import { CircularProgress, LinearProgress } from "@material-ui/core";
-import HomePageView from "./views/homepage/HomePageView";
+import HomePageView from "./views/homePage/homePageView";
 
 function App({}) {
   const [count, setCount] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [isSignedIn, setIsSignedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const hourSeconds = 3600;
+
+  const updateFinalDate = async () => {
+    const date = firebase.firestore().collection("docs").doc("date");
+    let tomorrowTimestamp= (new Date().getTime()/1000) + (hourSeconds*24);
+    await date.set({ date: tomorrowTimestamp});
+    setEndDate(tomorrowTimestamp);
+  }
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((firebaseUser) => {
-      console.log(firebaseUser);
       if (firebaseUser) {
         setIsSignedIn(true);
       } else {
@@ -40,6 +47,9 @@ function App({}) {
       .onSnapshot((result) => {
         setEndDate(result.data()["date"]);
       });
+
+
+
     return () => {
       unsubscribeUserCountListener();
       unsubscribeEndDateListener();
@@ -49,13 +59,15 @@ function App({}) {
   const handleLoading = (shouldLoad) => {
     setIsLoading(shouldLoad);
   };
+
   const isPageLoading = () => count === null || isSignedIn == null || isLoading;
+
   const PageContent = () => {
     if (count == null || isSignedIn == null) {
       return <h1> جاري التحميل... </h1>;
     }
     if (isSignedIn) {
-      return <AnswerPageView />;
+      return <AnswerPageView setLoading={handleLoading}/>;
     } else {
       return <HomePageView setLoading={handleLoading} />;
     }
