@@ -35,7 +35,7 @@ function App({}) {
   }
 
   const endCompIfIsFinished = () => {
-    // if (endDate === -1) return ;
+    if (endDate === -1) return ;
     let startDate = new Date();
     let finalDate   =  new Date(endDate*1000);
     let secondsLeft = (finalDate.getTime() - startDate.getTime()) / 1000;

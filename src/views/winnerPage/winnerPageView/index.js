@@ -17,7 +17,7 @@ const WinnerPageView = () => {
                     مبرووووووووك
                     </Typography>
                     <Typography gutterBottom variant="h5" component="h2">
-                        شار
+                       الف مبروك تستاهل, شاركنا فوزك بتويتر
                     </Typography>
 
                 </CardContent>
