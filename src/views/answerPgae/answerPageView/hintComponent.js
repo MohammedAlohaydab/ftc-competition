@@ -11,16 +11,64 @@ import {
 import firebase from "firebase";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
+import ErrorDialog from "./errorDialog";
 
-const HintComponent = ({ hintID, revealed, hintText }) => {
+
+const HintComponent = ({ hintID, revealed, hintText, currEndDate, updateEndDate}) => {
+  const hintDescText = "اظهار هذا التلميح سياخذ من الوقت المتبقي لجميع اللاعبين, هل انت" +
+      " متاكد؟";
+  const hintTitle = "اظهار التلميح" ;
   const [open, setOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState(hintTitle);
+  const [dialogDesc, setDialogDesc] = useState(hintDescText);
+  const [isError, setError] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  const calcEndDateTimestamp = (hours) => {
+    let date = new Date(currEndDate*1000);
+    date.setHours(date.getHours() - hours);
+    // let hor = date.getHours();
+    // alert(hor);
+    // alert(currEndDate);
+    // const hourSeconds = 3600;
+
+    // newEndTime = newEndTime ;
+    // alert(newEndTime);
+
+    return date.getTime()/1000;
+  }
+
+  const handleErrorDialog = () =>{
+    setDialogTitle("خطأ");
+    setDialogDesc("يبدو انك تحاول اظهار تلميح لاكن لايوجد وقت كافي");
+    setError(true);
+  }
+
+  const checkIfThereIsTimeAndReduce = (hours) => {
+    let timestamp = calcEndDateTimestamp(hours);
+
+    let startDate = new Date();
+    let endDate   =  new Date(timestamp*1000);
+    let secondsLeft = (endDate.getTime() - startDate.getTime()) / 1000;
+
+    alert(secondsLeft);
+    if (timestamp < 1)// less than 1 sec left
+      return false;
+
+    else {
+      updateEndDate(timestamp);
+      return true
+    }
+
+  };
+
   const handleAcceptShow = async () => {
     const addOne = firebase.firestore.FieldValue.increment(1);
 
@@ -29,6 +77,13 @@ const HintComponent = ({ hintID, revealed, hintText }) => {
     let curHints = doc.data()["hints"];
 
     if (curHints[hintID]["shown"] == true) return;
+    let canReduce = checkIfThereIsTimeAndReduce(curHints[hintID]["hours"]);
+
+    if (!canReduce){
+      handleErrorDialog();
+      return ;
+    }
+
     curHints[hintID]["shown"] = true;
     firebase
       .firestore()
@@ -38,61 +93,73 @@ const HintComponent = ({ hintID, revealed, hintText }) => {
       .catch((err) => {
         alert(err);
       });
-    reduceDateEndTime();
   };
-  const reduceDateEndTime = () => {};
+
 
   const HintText = () => {
     return (
       <Typography gutterBottom variant="h5" component="h2">
 
-        اظهار التلميح رقم: {hintID + 1}
+         التلميح رقم  {hintID + 1}: {hintText}
       </Typography>
     );
   };
+
   // before showing
   const HintButton = () => {
     return (
       <div>
         <Button
           style={{ margin: "10px", borderRadius: 15 }}
-          variant="outlined"
+          variant="contained"
           color="inherit"
           onClick={() => {
             handleClickOpen();
           }}
         >
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography color={"primary"} gutterBottom variant="h5" component="h2">
             اظهار التلميح رقم: {hintID + 1}
           </Typography>
         </Button>
+        {showDialog()}
+      </div>
+    );
+
+  };
+  const showDialog = () => {
+    return(
         <Dialog
-          className="App"
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+            className="App"
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"اظهار التلميح"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              اظهار هذا التلميح سياخذ من الوقت المتبقي لجميع اللاعبين, هل انت
-              متاكد؟
+              {dialogDesc}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleAcceptShow} color="primary">
-              اظهار التمليح
-            </Button>
-            <Button onClick={handleClose} color="" autoFocus>
-              الغاء
-            </Button>
+
+            {isError?
+                <Button onClick={handleClose} color="primary" autoFocus>
+                 حسنا
+                </Button>
+                :<div>
+                  <Button onClick={handleAcceptShow} color="primary">
+                    اظهار التمليح
+                  </Button>
+                  <Button onClick={handleClose} color="" autoFocus>
+                    الغاء
+                  </Button>
+                </div> }
+
           </DialogActions>
         </Dialog>
-      </div>
-    );
-  };
-
+    )
+  }
   if (revealed) {
     return <HintText />;
   } else {

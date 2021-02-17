@@ -24,11 +24,10 @@ function App({}) {
   const [isLoading, setIsLoading] = useState(false);
   const hourSeconds = 3600;
 
-  const setFinalDate = async () => {
+  const setFinalDate = async (timestamp) => {
     const date = firebase.firestore().collection("docs").doc("date");
-    let tomorrowTimestamp = new Date().getTime() / 1000 + hourSeconds * 24;
-    await date.set({ date: tomorrowTimestamp });
-    setEndDate(tomorrowTimestamp);
+    await date.set({ date: timestamp });
+    setEndDate(timestamp);
   };
   const updateUserCounter = async () => {
     const countDoc = firebase.firestore().collection("docs").doc("userCount");
@@ -57,7 +56,9 @@ function App({}) {
         setCount(result.data()["userCount"]);
 
         if (result.data()["isFirst"] && result.data()["userCount"] == 1) {
-          setFinalDate();
+          let tomorrowTimestamp = new Date().getTime() / 1000 + hourSeconds * 24;
+          setFinalDate(tomorrowTimestamp);
+
           firebase
             .firestore()
             .collection("docs")
@@ -92,6 +93,7 @@ function App({}) {
     if (isSignedIn) {
       return <AnswerPageView
           date={endDate}// lazy guy xd!
+          updateEndDate={setFinalDate}
           setLoading={handleLoading} />;
     } else {
       return (
