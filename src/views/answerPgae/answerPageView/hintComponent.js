@@ -45,6 +45,7 @@ const HintComponent = ({ hintID, revealed, hintText }) => {
   const HintText = () => {
     return (
       <Typography gutterBottom variant="h5" component="h2">
+
         اظهار التلميح رقم: {hintID + 1}
       </Typography>
     );
@@ -83,8 +84,8 @@ const HintComponent = ({ hintID, revealed, hintText }) => {
             <Button onClick={handleAcceptShow} color="primary">
               اظهار التمليح
             </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
-              اخفاء التلميح
+            <Button onClick={handleClose} color="" autoFocus>
+              الغاء
             </Button>
           </DialogActions>
         </Dialog>

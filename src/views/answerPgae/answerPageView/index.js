@@ -1,16 +1,6 @@
-import React from "react";
-import {Box, Typography, Card, CardContent, TextField } from "@material-ui/core";
+import {Box, Typography, Card, CardContent, TextField,ButtonGroup } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import {
-  Typography,
-  Card,
-  CardContent,
-  Button,
-  Box,
-  ButtonGroup,
-  CircularProgress,
-  LinearProgress,
-} from "@material-ui/core";
+
 import firebase from "firebase";
 import Timer from "./timer";
 import HintComponent from "./hintComponent";
@@ -33,29 +23,7 @@ const AnswerPageView = () => {
  }
 
   // return (
-  //     <Box width="100%">
 
-  //     <Card >
-  //     <CardContent>
-
-
-  //       <Typography gutterBottom variant="h5" component="h2">
-  //         : باقي لك
-  //       </Typography>
-  //       <Timer />
-  //         <TextField
-  //             multiline={false}
-  //             fullWidth
-  //             margin={"normal"}
-  //             label="ادخل الشفرة"
-  //             name="answer"
-  //             onChange={null}
-  //             required
-  //             variant="outlined"
-  //         />
-  //     </CardContent>
-  //   </Card>
-  //     </Box>
   const [hints, setHints] = useState([]);
   const [lastHintShown, setLastHintShown] = useState(-1);
 
@@ -105,52 +73,29 @@ const AnswerPageView = () => {
   };
   return (
     <div>
-      <Card>
-        <CardContent>
-          <button
-            onClick={() => {
-              firebase
-                .auth()
-                .signOut()
-                .then(() => {})
-                .catch((err) => {
-                  alert(err);
-                });
-            }}
-          >
-            {" "}
-            sign out
-          </button>
-          <button
-            onClick={async () => {
-              let getAnwserFunction = firebase
-                .functions()
-                .httpsCallable("finalAnswer");
+        <Box width="100%">
 
-              let answer = getAnwserFunction()
-                .then((result) => {
-                  alert(result.data["answer"]);
-                })
-                .catch((err) => {
-                  alert(err);
-                });
-            }}
-          >
-            {" "}
-            call function
-          </button>
-          <Typography gutterBottom variant="h5" component="h2">
-            : باقي لك
-          </Typography>
-          <Timer />
+            <Card >
+                <CardContent>
 
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
-          ></Typography>
-        </CardContent>
-      </Card>
+
+                    <Typography gutterBottom variant="h5" component="h2">
+                        : باقي لك
+                    </Typography>
+                    <Timer />
+                    <TextField
+                        multiline={false}
+                        fullWidth
+                        margin={"normal"}
+                        label="ادخل الشفرة"
+                        name="answer"
+                        onChange={null}
+                        required
+                        variant="outlined"
+                    />
+                </CardContent>
+            </Card>
+        </Box>
 
       <h5>
         {" "}
