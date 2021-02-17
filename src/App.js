@@ -8,6 +8,7 @@ import CountUp from "react-countup";
 import AnswerPageView from "./views/answerPgae/answerPageView";
 import { Box, CircularProgress, LinearProgress } from "@material-ui/core";
 import HomePageView from "./views/homePage/homePageView";
+import WinnerPageView from "./views/winnerPage/winnerPageView";
 
 const defaultProps = {
   bgcolor: "background.paper",
@@ -22,6 +23,9 @@ function App({}) {
   const [endDate, setEndDate] = useState(-1);
   const [isSignedIn, setIsSignedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isWinner, setWinner] = useState(false);
+
+
   const hourSeconds = 3600;
 
   const setFinalDate = async (timestamp) => {
@@ -90,12 +94,17 @@ function App({}) {
     if (count == null || isSignedIn == null) {
       return <h1> جاري التحميل... </h1>;
     }
-    if (isSignedIn) {
+    if (isSignedIn & !isWinner) {
       return <AnswerPageView
+          setWinner={setWinner}
           date={endDate}// lazy guy xd!
           updateEndDate={setFinalDate}
           setLoading={handleLoading} />;
-    } else {
+    }
+    else if(isWinner){
+      return <WinnerPageView/>;
+    }
+    else {
       return (
         <HomePageView
           updateCounter={updateUserCounter}
@@ -112,7 +121,7 @@ function App({}) {
       <header className="App-header">
         <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
 
-        {!isPageLoading() && (
+        {(!isPageLoading() && !isWinner) && (
           <Box borderRadius="7%" {...defaultProps}>
             <h4 style={{ color: "black" }}>
               عدد الواصلين: <CountUp end={count} />{" "}

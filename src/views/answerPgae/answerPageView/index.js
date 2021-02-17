@@ -16,7 +16,7 @@ import firebase from "firebase";
 import Timer from "./timer";
 import HintComponent from "./hintComponent";
 
-const AnswerPageView = ({date, updateEndDate}) => {
+const AnswerPageView = ({date, updateEndDate, setWinner}) => {
     const [hints, setHints] = useState([]);
     const [lastHintShown, setLastHintShown] = useState(-1);
     const [isCallingCloudFunc, setCallingCloudFunc] = useState(false);
@@ -42,6 +42,10 @@ const AnswerPageView = ({date, updateEndDate}) => {
     }, []);
 
     const handleAnswer = async () => {
+        // if (true){
+        //     setWinner(true);
+        // }
+        // return;
         setCallingCloudFunc(true);
         let getAnwserFunction = firebase.functions().httpsCallable("finalAnswer");
 
@@ -49,8 +53,8 @@ const AnswerPageView = ({date, updateEndDate}) => {
             .then((result) => {
                 setCallingCloudFunc(false);
                 let correctAnswer = result.data["answer"];
-                if (correctAnswer === userAnswer){
-
+                if (true){
+                    setWinner(true);
                 }
                 else {
                     handleClickOpen();
@@ -140,7 +144,7 @@ const AnswerPageView = ({date, updateEndDate}) => {
         {wrongAnswerDialog()}
         {isCallingCloudFunc && <CircularProgress color="primary" />}
 
-        <Box width="100%">
+        <Box width="95%">
 
             <Card >
                 <CardContent>
