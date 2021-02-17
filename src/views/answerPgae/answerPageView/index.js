@@ -42,10 +42,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner}) => {
     }, []);
 
     const handleAnswer = async () => {
-        // if (true){
-        //     setWinner(true);
-        // }
-        // return;
+
         setCallingCloudFunc(true);
         let getAnwserFunction = firebase.functions().httpsCallable("finalAnswer");
 
@@ -53,15 +50,13 @@ const AnswerPageView = ({date, updateEndDate, setWinner}) => {
             .then((result) => {
                 setCallingCloudFunc(false);
                 let correctAnswer = result.data["answer"];
-                if (true){
+                if (correctAnswer === userAnswer){
                     setWinner(true);
                 }
                 else {
                     handleClickOpen();
                 }
 
-                // alert(typeof );
-                // alert(typeof userAnswer);
             })
             .catch((err) => {
                 alert(err);
@@ -172,10 +167,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner}) => {
             </Card>
         </Box>
 
-      {/*<h5>*/}
-      {/*  {" "}*/}
-      {/*  عندك ثلاث تلميحات, ولكن كل تلميحه بسعرها, فكر زين قبل لا تظهر اي تلميحة*/}
-      {/*</h5>*/}
+
       <ButtonGroup orientation="vertical" style={{}}>
         {renderHints()}
       </ButtonGroup>

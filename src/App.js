@@ -1,8 +1,7 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import firebase from "./firebase";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+
 import CountUp from "react-countup";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";

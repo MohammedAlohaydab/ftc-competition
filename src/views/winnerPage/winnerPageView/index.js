@@ -14,10 +14,10 @@ const WinnerPageView = () => {
                 <CardContent>
 
                     <Typography gutterBottom variant="h3" component="h2">
-                     Congratulations!!!!!!
+                    مبرووووووووك
                     </Typography>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Congratulations!!!!!!
+                        شار
                     </Typography>
 
                 </CardContent>
