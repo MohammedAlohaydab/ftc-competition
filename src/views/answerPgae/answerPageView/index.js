@@ -82,6 +82,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner}) => {
           hintID={i}
           hintText={curHint["hintText"]}
           revealed={curHint["shown"]}
+          hintHours={curHint["hours"]}
           currEndDate={date}
           updateEndDate={updateEndDate}
         />
@@ -95,6 +96,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner}) => {
           hintID={lastHintShown + 1}
           hintText={nextHint["hintText"]}
           revealed={nextHint["shown"]}
+          hintHours={nextHint["hours"]}
           currEndDate={date}
           updateEndDate={updateEndDate}
         />

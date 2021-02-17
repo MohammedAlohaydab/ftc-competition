@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 
 
-const HintComponent = ({ hintID, revealed, hintText, currEndDate, updateEndDate}) => {
+const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, updateEndDate}) => {
   const hintDescText = "اظهار هذا التلميح سياخذ من الوقت المتبقي لجميع اللاعبين, هل انت" +
       " متاكد؟";
   const hintTitle = "اظهار التلميح" ;
@@ -139,7 +139,7 @@ const HintComponent = ({ hintID, revealed, hintText, currEndDate, updateEndDate}
                 </Button>
                 :<div>
                   <Button onClick={handleAcceptShow} color="primary">
-                    اظهار التمليح
+                     اظهار التمليح وخصم {hintHours} ساعات 
                   </Button>
                   <Button onClick={handleClose} color="" autoFocus>
                     الغاء
