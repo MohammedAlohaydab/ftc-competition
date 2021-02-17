@@ -16,7 +16,7 @@ import firebase from "firebase";
 import Timer from "./timer";
 import HintComponent from "./hintComponent";
 
-const AnswerPageView = ({date}) => {
+const AnswerPageView = ({date, updateEndDate}) => {
 
   const handleAnswer = async (event) => {
     let userAnswer = event.target.value;
@@ -64,6 +64,8 @@ const AnswerPageView = ({date}) => {
           hintID={i}
           hintText={curHint["hintText"]}
           revealed={curHint["shown"]}
+          currEndDate={date}
+          updateEndDate={updateEndDate}
         />
       );
     }
@@ -75,6 +77,8 @@ const AnswerPageView = ({date}) => {
           hintID={lastHintShown + 1}
           hintText={nextHint["hintText"]}
           revealed={nextHint["shown"]}
+          currEndDate={date}
+          updateEndDate={updateEndDate}
         />
       );
     }
