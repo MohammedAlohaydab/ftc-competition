@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {Box, Button, Card, CardContent, LinearProgress, Typography} from "@material-ui/core";
-import { useState } from "react";
 import firebase from "firebase";
-import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const HomePageView = ({updateCounter, setLoading }) => {

@@ -4,5 +4,5 @@ const functions = require("firebase-functions");
 // https://firebase.google.com/docs/functions/write-firebase-functions
 
 exports.finalAnswer = functions.https.onCall((request, response) => {
-  return { answer: 42 };
+  return { answer: "believe" };
 });

@@ -35,11 +35,11 @@ function App({}) {
   }
 
   const endCompIfIsFinished = () => {
-    if (endDate === -1) return ;
-
+    // if (endDate === -1) return ;
     let startDate = new Date();
     let finalDate   =  new Date(endDate*1000);
     let secondsLeft = (finalDate.getTime() - startDate.getTime()) / 1000;
+
     if(secondsLeft <5){
       finishCompetition();
     }
@@ -95,6 +95,7 @@ function App({}) {
       .doc("date")
       .onSnapshot((result) => {
         setEndDate(result.data()["date"]);
+        endCompIfIsFinished();
       });
 
     const unsubscribeisFinishedListener = firebase
@@ -116,7 +117,7 @@ function App({}) {
     setIsLoading(shouldLoad);
   };
 
-  const isPageLoading = () => count === null || isSignedIn == null || isLoading;
+  const isPageLoading = () => count === null || isSignedIn == null || isLoading ||endDate===-1;
 
   const PageContent = () => {
     if (count == null || isSignedIn == null) {
@@ -131,7 +132,8 @@ function App({}) {
           setWinner={setWinner}
           date={endDate}// lazy guy xd!
           updateEndDate={setFinalDate}
-          setLoading={handleLoading} />;
+          setLoading={handleLoading}
+          endCompIfIsFinished={endCompIfIsFinished}/>;
     }
     else if(isWinner){
       return <WinnerPageView/>;

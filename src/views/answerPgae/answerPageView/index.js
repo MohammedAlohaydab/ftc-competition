@@ -10,13 +10,12 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  LinearProgress,
 } from "@material-ui/core";
 import firebase from "firebase";
 import Timer from "./timer";
 import HintComponent from "./hintComponent";
 
-const AnswerPageView = ({date, updateEndDate, setWinner}) => {
+const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) => {
     const [hints, setHints] = useState([]);
     const [lastHintShown, setLastHintShown] = useState(-1);
     const [isCallingCloudFunc, setCallingCloudFunc] = useState(false);
@@ -42,6 +41,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner}) => {
     }, []);
 
     const handleAnswer = async () => {
+        endCompIfIsFinished();
 
         setCallingCloudFunc(true);
         let getAnwserFunction = firebase.functions().httpsCallable("finalAnswer");

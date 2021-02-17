@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -139,7 +138,7 @@ const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, upd
                 </Button>
                 :<div>
                   <Button onClick={handleAcceptShow} color="primary">
-                     اظهار التمليح وخصم {hintHours} ساعات 
+                     اظهار التمليح وخصم {hintHours} ساعات
                   </Button>
                   <Button onClick={handleClose} color="" autoFocus>
                     الغاء
