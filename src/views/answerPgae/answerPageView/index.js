@@ -15,7 +15,9 @@ import {
 import firebase from "firebase";
 import Timer from "./timer";
 import HintComponent from "./hintComponent";
-const AnswerPageView = () => {
+
+const AnswerPageView = ({date}) => {
+
   const handleAnswer = async (event) => {
     let userAnswer = event.target.value;
     let getAnwserFunction = firebase.functions().httpsCallable("finalAnswer");
@@ -89,7 +91,7 @@ const AnswerPageView = () => {
                     <Typography gutterBottom variant="h5" component="h2">
                         : باقي لك
                     </Typography>
-                    <Timer />
+                    <Timer endTime={date}/>
                     <TextField
                         multiline={false}
                         fullWidth

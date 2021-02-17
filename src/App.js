@@ -7,7 +7,7 @@ import CountUp from "react-countup";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
 import { Box, CircularProgress, LinearProgress } from "@material-ui/core";
-import HomePageView from "./views/homepage/HomePageView";
+import HomePageView from "./views/homePage/homePageView";
 
 const defaultProps = {
   bgcolor: "background.paper",
@@ -90,7 +90,9 @@ function App({}) {
       return <h1> جاري التحميل... </h1>;
     }
     if (isSignedIn) {
-      return <AnswerPageView setLoading={handleLoading} />;
+      return <AnswerPageView
+          date={endDate}// lazy guy xd!
+          setLoading={handleLoading} />;
     } else {
       return (
         <HomePageView
@@ -100,7 +102,7 @@ function App({}) {
       );
     }
   };
-
+// firebase.auth().signOut();
   return (
     <div className="App">
       {isPageLoading() && <LinearProgress />}
