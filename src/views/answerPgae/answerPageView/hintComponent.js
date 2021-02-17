@@ -11,7 +11,6 @@ import {
 import firebase from "firebase";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import ErrorDialog from "./errorDialog";
 
 
 const HintComponent = ({ hintID, revealed, hintText, currEndDate, updateEndDate}) => {
@@ -58,8 +57,7 @@ const HintComponent = ({ hintID, revealed, hintText, currEndDate, updateEndDate}
     let endDate   =  new Date(timestamp*1000);
     let secondsLeft = (endDate.getTime() - startDate.getTime()) / 1000;
 
-    alert(secondsLeft);
-    if (timestamp < 1)// less than 1 sec left
+    if (secondsLeft < 1)// less than 1 sec left
       return false;
 
     else {
