@@ -8,6 +8,7 @@ import AnswerPageView from "./views/answerPgae/answerPageView";
 import { Box, CircularProgress, LinearProgress } from "@material-ui/core";
 import HomePageView from "./views/homePage/homePageView";
 import WinnerPageView from "./views/winnerPage/winnerPageView";
+import EndingCompPageView from "./views/endingCompPage/endingCompPageView";
 
 const defaultProps = {
   bgcolor: "background.paper",
@@ -23,9 +24,26 @@ function App({}) {
   const [isSignedIn, setIsSignedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isWinner, setWinner] = useState(false);
+  const [isComFinished, setComFinished] = useState(false);
 
 
   const hourSeconds = 3600;
+
+  const finishCompetition = async () => {
+    const comp = firebase.firestore().collection("docs").doc("competition");
+    await comp.set({ isFinished: true });
+  }
+
+  const endCompIfIsFinished = () => {
+    if (endDate === -1) return ;
+
+    let startDate = new Date();
+    let finalDate   =  new Date(endDate*1000);
+    let secondsLeft = (finalDate.getTime() - startDate.getTime()) / 1000;
+    if(secondsLeft <5){
+      finishCompetition();
+    }
+  }
 
   const setFinalDate = async (timestamp) => {
     const date = firebase.firestore().collection("docs").doc("date");
@@ -38,6 +56,8 @@ function App({}) {
     await countDoc.update({ userCount: addOne });
   };
   useEffect(() => {
+    endCompIfIsFinished();
+
     firebase.auth().onAuthStateChanged(
       (firebaseUser) => {
         if (firebaseUser) {
@@ -77,9 +97,18 @@ function App({}) {
         setEndDate(result.data()["date"]);
       });
 
+    const unsubscribeisFinishedListener = firebase
+        .firestore()
+        .collection("docs")
+        .doc("competition")
+        .onSnapshot((result) => {
+          setComFinished(result.data()["isFinished"]);
+        });
+
     return () => {
       unsubscribeUserCountListener();
       unsubscribeEndDateListener();
+      unsubscribeisFinishedListener();
     };
   }, []);
 
@@ -93,7 +122,11 @@ function App({}) {
     if (count == null || isSignedIn == null) {
       return <h1> جاري التحميل... </h1>;
     }
-    if (isSignedIn & !isWinner) {
+
+    if (isComFinished){
+      return <EndingCompPageView/>
+    }
+    else if (isSignedIn & !isWinner) {
       return <AnswerPageView
           setWinner={setWinner}
           date={endDate}// lazy guy xd!
@@ -112,7 +145,7 @@ function App({}) {
       );
     }
   };
-// firebase.auth().signOut();
+
   return (
     <div className="App">
       {isPageLoading() && <LinearProgress />}
@@ -120,7 +153,7 @@ function App({}) {
       <header className="App-header">
         <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
 
-        {(!isPageLoading() && !isWinner) && (
+        {(!isPageLoading() && !isWinner && !isComFinished) && (
           <Box borderRadius="7%" {...defaultProps}>
             <h4 style={{ color: "black" }}>
               عدد الواصلين: <CountUp end={count} />{" "}

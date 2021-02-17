@@ -33,14 +33,6 @@ const HintComponent = ({ hintID, revealed, hintText, currEndDate, updateEndDate}
   const calcEndDateTimestamp = (hours) => {
     let date = new Date(currEndDate*1000);
     date.setHours(date.getHours() - hours);
-    // let hor = date.getHours();
-    // alert(hor);
-    // alert(currEndDate);
-    // const hourSeconds = 3600;
-
-    // newEndTime = newEndTime ;
-    // alert(newEndTime);
-
     return date.getTime()/1000;
   }
 
