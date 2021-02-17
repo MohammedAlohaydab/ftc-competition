@@ -1,26 +1,33 @@
-import {Box, Typography, Card, CardContent, TextField,ButtonGroup } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  TextField,
+} from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-
+import {
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  LinearProgress,
+} from "@material-ui/core";
 import firebase from "firebase";
 import Timer from "./timer";
 import HintComponent from "./hintComponent";
 const AnswerPageView = () => {
+  const handleAnswer = async (event) => {
+    let userAnswer = event.target.value;
+    let getAnwserFunction = firebase.functions().httpsCallable("finalAnswer");
 
- const handleAnswer = async(event) => {
-     let userAnswer =  event.target.value;
-     let getAnwserFunction = firebase
-         .functions()
-         .httpsCallable("finalAnswer");
-
-     let answer = getAnwserFunction()
-         .then((result) => {
-             alert(result.data["answer"]);
-         })
-         .catch((err) => {
-             alert(err);
-         });
-
- }
+    let answer = getAnwserFunction()
+      .then((result) => {
+        alert(result.data["answer"]);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   // return (
 

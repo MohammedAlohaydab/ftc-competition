@@ -6,15 +6,15 @@ import { useHistory } from "react-router-dom";
 import CountUp from "react-countup";
 
 import AnswerPageView from "./views/answerPgae/answerPageView";
-import {Box, CircularProgress, LinearProgress } from "@material-ui/core";
-import HomePageView from "./views/homePage/homePageView";
+import { Box, CircularProgress, LinearProgress } from "@material-ui/core";
+import HomePageView from "./views/homepage/HomePageView";
 
 const defaultProps = {
-  bgcolor: 'background.paper',
-  borderColor: 'text.primary',
+  bgcolor: "background.paper",
+  borderColor: "text.primary",
   m: 5,
   border: 2,
-  style: { width: '10em', height: '9rem' },
+  style: { width: "10em", height: "9rem" },
 };
 
 function App({}) {
@@ -29,26 +29,21 @@ function App({}) {
     let tomorrowTimestamp = new Date().getTime() / 1000 + hourSeconds * 24;
     await date.set({ date: tomorrowTimestamp });
     setEndDate(tomorrowTimestamp);
-  }
+  };
   const updateUserCounter = async () => {
     const countDoc = firebase.firestore().collection("docs").doc("userCount");
     const addOne = firebase.firestore.FieldValue.increment(1);
-    await countDoc.update({userCount: addOne});
-
+    await countDoc.update({ userCount: addOne });
   };
   useEffect(() => {
     firebase.auth().onAuthStateChanged(
       (firebaseUser) => {
         if (firebaseUser) {
           setIsSignedIn(true);
-
         } else {
-          alert(count)
-
           setIsSignedIn(false);
         }
         setIsLoading(false);
-
       },
       (err) => {
         alert(err);
@@ -60,6 +55,15 @@ function App({}) {
       .doc("userCount")
       .onSnapshot((result) => {
         setCount(result.data()["userCount"]);
+
+        if (result.data()["isFirst"] && result.data()["userCount"] == 1) {
+          setFinalDate();
+          firebase
+            .firestore()
+            .collection("docs")
+            .doc("userCount")
+            .set({ isFirst: false }, { merge: true });
+        }
       });
     const unsubscribeEndDateListener = firebase
       .firestore()
@@ -88,7 +92,12 @@ function App({}) {
     if (isSignedIn) {
       return <AnswerPageView setLoading={handleLoading} />;
     } else {
-      return <HomePageView updateCounter={updateUserCounter} setLoading={handleLoading} />;
+      return (
+        <HomePageView
+          updateCounter={updateUserCounter}
+          setLoading={handleLoading}
+        />
+      );
     }
   };
 
@@ -99,10 +108,13 @@ function App({}) {
       <header className="App-header">
         <img src={"/static/images/ftcLogoWhiteNoText.png"}></img>
 
-        {!isPageLoading() &&
-            <Box borderRadius="7%" {...defaultProps}>
-               <h4 style={{color:"black"}}>عدد الواصلين: <CountUp end={count}/> </h4>
-            </Box>}
+        {!isPageLoading() && (
+          <Box borderRadius="7%" {...defaultProps}>
+            <h4 style={{ color: "black" }}>
+              عدد الواصلين: <CountUp end={count} />{" "}
+            </h4>
+          </Box>
+        )}
         <PageContent />
       </header>
     </div>
