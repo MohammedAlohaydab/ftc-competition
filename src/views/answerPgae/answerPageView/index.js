@@ -40,6 +40,12 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
       });
     }, []);
 
+    const updateWinnersCounter = async () => {
+        const comp = firebase.firestore().collection("docs").doc("competition");
+        const addOne = firebase.firestore.FieldValue.increment(1);
+        await comp.update({ winnersCount: addOne });
+    };
+
     const handleAnswer = async () => {
         endCompIfIsFinished();
 
@@ -51,6 +57,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
                 setCallingCloudFunc(false);
                 let correctAnswer = result.data["answer"];
                 if (correctAnswer === userAnswer){
+                    updateWinnersCounter();
                     setWinner(true);
                 }
                 else {
@@ -120,16 +127,16 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
                 <DialogTitle id="alert-dialog-title">oppps</DialogTitle>
                 <DialogContent>
                     <DialogContentText color={"secondary"} id="alert-dialog-description">
-                        اجابة خاطئة
+                        Wrong Answer
                     </DialogContentText>
                     <DialogContentText  id="alert-dialog-description">
-                        همممم لاتنسى ان فيه تلميحات تحت
+                        Humm.. Don't forget there are hints below
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
 
                         <Button onClick={handleClose} color="primary" autoFocus>
-                            حاول مرة ثانية
+                           Try Again
                         </Button>
 
                 </DialogActions>
@@ -147,7 +154,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
                 <CardContent>
 
                     <Typography gutterBottom variant="h5" component="h2">
-                        : باقي لك
+                        Remaining Time:
                     </Typography>
 
                     <Timer endTime={date}/>
@@ -156,14 +163,14 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
                         multiline={false}
                         fullWidth
                         margin={"normal"}
-                        label="ادخل الشفرة"
+                        label="Yuor Answer"
                         name="answer"
                         onChange={handleChange}
                         required
                         variant="outlined"
                     />
                     <Button variant="contained" onClick={handleAnswer} color="primary">
-                       التأكد من الشفرة
+                       Check
                     </Button>
                 </CardContent>
             </Card>

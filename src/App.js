@@ -121,7 +121,7 @@ function App({}) {
 
   const PageContent = () => {
     if (count == null || isSignedIn == null) {
-      return <h1> جاري التحميل... </h1>;
+      return <h1> Loading... </h1>;
     }
 
     if (isComFinished){
@@ -158,7 +158,7 @@ function App({}) {
         {(!isPageLoading() && !isWinner && !isComFinished) && (
           <Box borderRadius="7%" {...defaultProps}>
             <h4 style={{ color: "black" }}>
-              عدد الواصلين: <CountUp end={count} />{" "}
+              Arrived: <CountUp end={count} />{" "}
             </h4>
           </Box>
         )}

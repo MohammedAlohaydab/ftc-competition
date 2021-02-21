@@ -13,9 +13,8 @@ import React, { useState, useEffect } from "react";
 
 
 const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, updateEndDate}) => {
-  const hintDescText = "اظهار هذا التلميح سياخذ من الوقت المتبقي لجميع اللاعبين, هل انت" +
-      " متاكد؟";
-  const hintTitle = "اظهار التلميح" ;
+  const hintDescText = "Showing this hint will 'reduce' the remaining time for all players, are you sure?";
+  const hintTitle = "Warning" ;
   const [open, setOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(hintTitle);
   const [dialogDesc, setDialogDesc] = useState(hintDescText);
@@ -36,8 +35,8 @@ const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, upd
   }
 
   const handleErrorDialog = () =>{
-    setDialogTitle("خطأ");
-    setDialogDesc("يبدو انك تحاول اظهار تلميح لاكن لايوجد وقت كافي");
+    setDialogTitle("Error");
+    setDialogDesc("It looks like you want to show a hint, but there's not enough time.");
     setError(true);
   }
 
@@ -89,7 +88,7 @@ const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, upd
     return (
       <Typography gutterBottom variant="h5" component="h2">
 
-         التلميح رقم  {hintID + 1}: {hintText}
+         Hint {hintID + 1}: {hintText}
       </Typography>
     );
   };
@@ -107,7 +106,7 @@ const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, upd
           }}
         >
           <Typography color={"primary"} gutterBottom variant="h5" component="h2">
-            اظهار التلميح رقم: {hintID + 1}
+            Hint {hintID + 1} Details
           </Typography>
         </Button>
         {showDialog()}
@@ -134,14 +133,14 @@ const HintComponent = ({ hintID, revealed, hintText, hintHours, currEndDate, upd
 
             {isError?
                 <Button onClick={handleClose} color="primary" autoFocus>
-                 حسنا
+                 OK
                 </Button>
                 :<div>
-                  <Button onClick={handleAcceptShow} color="primary">
-                     اظهار التمليح وخصم {hintHours} ساعات
+                  <Button onClick={handleAcceptShow} color="secondary">
+                     show the hint and reduce {hintHours} hours
                   </Button>
                   <Button onClick={handleClose} color="" autoFocus>
-                    الغاء
+                    Cancel
                   </Button>
                 </div> }
 

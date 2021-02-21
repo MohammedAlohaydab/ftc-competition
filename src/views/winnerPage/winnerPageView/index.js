@@ -1,29 +1,63 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Card, CardContent, Typography} from "@material-ui/core";
+import firebase from "../../../firebase";
 
 
 const WinnerPageView = () => {
+    const [winnersCount, setwWnnersCount] = useState(-1);
 
+    useEffect(() => {
 
+        const unsubscribeWinnersCountListener = firebase
+            .firestore()
+            .collection("docs")
+            .doc("competition")
+            .onSnapshot((result) => {
+                setwWnnersCount(result.data()["winnersCount"]);
+            });
 
-    return (
+        return () => {
+            unsubscribeWinnersCountListener();
+        };
+    }, []);
 
-        <Box width="90%" m={2}>
+    const cardContent = (title, desc) => {
+        return (
+            <Box width="90%" m={2}>
+                <Card >
+                    <CardContent>
+                        <Typography gutterBottom variant="h3" component="h2">
+                            {title}
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {desc}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Box>
+        );
+    }
 
-            <Card >
-                <CardContent>
+    const firstOneText = () => {
+        return cardContent("Congratulations!", " You did it!!\n" +
+            "                            Please take a screenshot and contact us on Twitter to receive your prize.");
+    }
+    const notFirstOneText = () => {
+       return cardContent("Congratulations!", "You did it!!\n" +
+           "But you aren't the first one.\n "+winnersCount+" before you");
+    }
+    const pageContent = () => {
+        if (winnersCount ===-1)
+            return <h1>Loading...</h1>
+        else if (winnersCount === 1)
+            return firstOneText();
+        else
+            return notFirstOneText();
+    }
 
-                    <Typography gutterBottom variant="h3" component="h2">
-                    مبرووووووووك
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="h2">
-                       الف مبروك تستاهل, شاركنا فوزك بتويتر
-                    </Typography>
-
-                </CardContent>
-            </Card>
-        </Box>
-    );
+   return(
+       pageContent()
+   );
 };
 
 export default WinnerPageView;

@@ -27,25 +27,25 @@ const HomePageView = ({updateCounter, setLoading }) => {
               <CardContent>
 
                   <Typography gutterBottom variant="h3" component="h2">
-                     لقد وصلت
+                     Here you go!
                   </Typography>
                   <Typography gutterBottom variant="h5" component="h2">
-                      اهلا بك في المسابقة, هذه بعض التوضيحات قبل أن تذهب لصفحة الاجابة
+                      Welcome to this challenge, there are some notes before you go to the answer page
                   </Typography>
                   <Typography gutterBottom variant="h6" component="h6">
-                      عدد الواصلين: عدد الاشخاص الذين سبقوك الى هذا الموقع
+                      Arrived: The number of participants who have arrived to this site
                   </Typography>
                   <Typography gutterBottom variant="h6" component="h6">
-                  الوقت المتبقي: 24 ساعه تبدأ بالتنازل عند دخول اول شخص للموقع
+                  Remaining Time: before the competition ends
               </Typography>
                   <Typography gutterBottom variant="h6" component="h6">
-                      الشفرة: الجواب لهذا اللغز
+                      Answer: your answer to solve this challenge
                   </Typography>
                   <Typography gutterBottom variant="h6" component="h6">
-                  التلميحات:  عندك ثلاث تلميحات, ولكن كل تلميحه بسعرها, فكر زين قبل لا تظهر اي تلميحة
+                      Hints: There are three hints, each one will reduce the remaining time of this challenge (the time of each hint will appear when pressed)
               </Typography>
                   <Typography gutterBottom color={"secondary"} variant="h6" component="h6">
-                                الوقت المتبقي والتلميحات مشتركة بين الجميع
+                                The Remaining time and Hints are shared with all participants
                   </Typography>
                   <Button
                       onClick={handleClick}
@@ -54,7 +54,7 @@ const HomePageView = ({updateCounter, setLoading }) => {
                       color="primary"
                       style={{ margin: "10px", fontSize: 21 }}
                   >
-                      الذهاب الى صفحة الاجابة
+                     Go to Answer Page
                   </Button>
               </CardContent>
 
