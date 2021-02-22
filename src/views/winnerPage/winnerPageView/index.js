@@ -40,7 +40,7 @@ const WinnerPageView = () => {
 
     const firstOneText = () => {
         return cardContent("Congratulations!", " You did it!!\n" +
-            "                            Please take a screenshot and contact us on Twitter to receive your prize.");
+            "                            You are the first winner.");
     }
     const notFirstOneText = () => {
        return cardContent("Congratulations!", "You did it!!\n" +

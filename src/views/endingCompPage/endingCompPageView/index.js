@@ -11,10 +11,7 @@ const EndingCompPageView = () => {
                 <CardContent>
 
                     <Typography gutterBottom variant="h3" component="h2">
-                       !انتهت المسابقة
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        شكرا لك, نشوفك بالفعاليات الجاية
+                        The Game is Over!
                     </Typography>
 
                 </CardContent>

@@ -163,7 +163,7 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
                         multiline={false}
                         fullWidth
                         margin={"normal"}
-                        label="Yuor Answer"
+                        label="Your Answer"
                         name="answer"
                         onChange={handleChange}
                         required
