@@ -52,11 +52,12 @@ const AnswerPageView = ({date, updateEndDate, setWinner, endCompIfIsFinished}) =
         setCallingCloudFunc(true);
         let getAnwserFunction = firebase.functions().httpsCallable("finalAnswer");
 
-        let answer = getAnwserFunction()
+        getAnwserFunction({"userAnswer":userAnswer})
             .then((result) => {
                 setCallingCloudFunc(false);
-                let correctAnswer = result.data["answer"];
-                if (correctAnswer === userAnswer){
+                let isCorrect = result.data
+
+                if (isCorrect){
                     updateWinnersCounter();
                     setWinner(true);
                 }
